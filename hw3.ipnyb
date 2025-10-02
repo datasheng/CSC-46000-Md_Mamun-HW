@@ -10,4 +10,12 @@ html = r.text
 
 soup = BeautifulSoup(html, 'html.parser')
 
+table = soup.find('table')
+
+rows = table.find_all('tr')
+
+data = []
+
+
+
 
