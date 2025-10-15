@@ -1,1 +1,8 @@
+assignment4_eda/
+│
+├── data/
+│   └── students_performance.csv
+│
+├── notebook.ipynb
+└── README.md
 
