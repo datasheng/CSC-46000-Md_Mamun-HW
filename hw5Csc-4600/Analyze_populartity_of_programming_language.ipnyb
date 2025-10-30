@@ -1,0 +1,119 @@
+# Question 1: What percentage of the total number of questions asked in 2020 had the R tag?
+
+# Add a percentage column
+data_percentage <- data %>%
+  mutate(percentage = (num_questions / year_total) * 100)
+
+# Filter for R tags
+r_over_time <- data_percentage %>%
+  filter(tag == "r")
+
+# Bonus: create a line plot of percentage over time
+# ggplot(r_over_time) +
+#   geom_line(aes(x = year, y = percentage))
+
+# Filter for the year 2020
+r_2020 <- r_over_time %>%
+  filter(year == "2020")
+
+print(r_2020)
+
+# Question 2: What were the five most asked-about tags between 2015-2020?
+
+# Find total number of questions for each tag in the period 2015-2020
+sorted_tags <- data %>%
+  filter(year >= 2015) %>% 
+  group_by(tag) %>% 
+  summarize(tag_total = sum(num_questions)) %>% 
+  arrange(desc(tag_total))
+
+# Get the five largest tags
+# Another way of doing the below is by selecting the column with $: highest_tags <- head(sorted_tags$tag, n = 5)
+highest_tags <- sorted_tags %>% 
+  select(tag) %>% 
+  head(n = 5)
+
+print(highest_tags)
+
+# Bonus: Visualize your answer
+
+# Filter for the five largest tags (extract the tag names)
+data_subset <- data_percentage %>% 
+  filter(tag %in% highest_tags$tag, year >= 2015)
+
+# Plot tags over time on a line plot using color to represent tag
+ggplot(data_subset, aes(x = year, y = percentage, color = tag)) +
+  geom_line(size = 1.2) +
+  geom_point(size = 2) +
+  labs(
+    title = "Top 5 Most Asked Tags on Stack Overflow (2015–2020)",
+    x = "Year",
+    y = "Percentage of Total Questions",
+    color = "Tag"
+  ) +
+  theme_minimal() +
+  theme(
+    plot.title = element_text(size = 14, face = "bold"),
+    axis.text.x = element_text(angle = 45, hjust = 1)
+  )
+
+
+
+# Question 1: What percentage of the total number of questions asked in 2020 had the R tag?
+
+# Add a percentage column
+data_percentage <- data %>%
+  mutate(percentage = (num_questions / year_total) * 100)
+
+# Filter for R tags
+r_over_time <- data_percentage %>%
+  filter(tag == "r")
+
+# Bonus: create a line plot of percentage over time
+# ggplot(r_over_time) +
+#   geom_line(aes(x = year, y = percentage))
+
+# Filter for the year 2020
+r_2020 <- r_over_time %>%
+  filter(year == "2020")
+
+print(r_2020)
+
+# Question 2: What were the five most asked-about tags between 2015-2020?
+
+# Find total number of questions for each tag in the period 2015-2020
+sorted_tags <- data %>%
+  filter(year >= 2015) %>% 
+  group_by(tag) %>% 
+  summarize(tag_total = sum(num_questions)) %>% 
+  arrange(desc(tag_total))
+
+# Get the five largest tags
+# Another way of doing the below is by selecting the column with $: highest_tags <- head(sorted_tags$tag, n = 5)
+highest_tags <- sorted_tags %>% 
+  select(tag) %>% 
+  head(n = 5)
+
+print(highest_tags)
+
+# Bonus: Visualize your answer
+
+# Filter for the five largest tags (extract the tag names)
+data_subset <- data_percentage %>% 
+  filter(tag %in% highest_tags$tag, year >= 2015)
+
+# Plot tags over time on a line plot using color to represent tag
+ggplot(data_subset, aes(x = year, y = percentage, color = tag)) +
+  geom_line(size = 1.2) +
+  geom_point(size = 2) +
+  labs(
+    title = "Top 5 Most Asked Tags on Stack Overflow (2015–2020)",
+    x = "Year",
+    y = "Percentage of Total Questions",
+    color = "Tag"
+  ) +
+  theme_minimal() +
+  theme(
+    plot.title = element_text(size = 14, face = "bold"),
+    axis.text.x = element_text(angle = 45, hjust = 1)
+  )
