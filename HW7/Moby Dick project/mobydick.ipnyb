@@ -1,0 +1,57 @@
+# Import and download packages
+import requests
+from bs4 import BeautifulSoup
+import nltk
+from collections import Counter
+nltk.download('stopwords')
+
+# Get the Moby Dick HTML  
+r = requests.get('https://s3.amazonaws.com/assets.datacamp.com/production/project_147/datasets/2701-h.htm')
+
+# Set the correct text encoding of the HTML page
+r.encoding = 'utf-8'
+
+# Extract the HTML from the request object
+html = r.text
+
+# Print the first 2000 characters in html
+print(html[0:2000])
+
+# Create a BeautifulSoup object from the HTML
+html_soup = BeautifulSoup(html, "html.parser")
+
+# Get the text out of the soup
+moby_text = html_soup.get_text()
+
+# Create a tokenizer
+tokenizer = nltk.tokenize.RegexpTokenizer('\w+')
+
+# Tokenize the text
+tokens = tokenizer.tokenize(moby_text)
+
+# Create a list called words containing all tokens transformed to lowercase
+words = [token.lower() for token in tokens]
+
+# Print out the first eight words
+words[:8]
+
+# Get the English stop words from nltk
+stop_words = nltk.corpus.stopwords.words('english')
+
+# Print out the first eight stop words
+stop_words[:8]
+
+# Create a list words_ns containing all words that are in words but not in stop_words
+words_no_stop = [word for word in words if word not in stop_words]
+
+# Print the first five words_no_stop to check that stop words are gone
+words_no_stop[:5]
+
+# Initialize a Counter object from our processed list of words
+count = Counter(words_no_stop)
+
+# Store ten most common words and their counts as top_ten
+top_ten = count.most_common(10)
+
+# Print the top ten words and their counts
+print(top_ten)
